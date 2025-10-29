@@ -1,0 +1,37 @@
+Relatório de Entregas
+
+Lojas:
+
+link
+Valor Fixo: R$ 7.00
+Entregas: 10
+Total: R$ 70.00
+Últimos 20 registros:
+- + 6 entrega(s) - 19/07/2025 09:47
+- + 6 entrega(s) - 19/07/2025 09:47
+- - 2 entrega(s) - 19/07/2025 09:48
+
+li
+Valor Fixo: R$ 6.00
+Entregas: 122
+Total: R$ 732.00
+Últimos 20 registros:
+- + 56 entrega(s) - 19/07/2025 09:47
+- + 67 entrega(s) - 19/07/2025 09:47
+- + 4 entrega(s) - 19/07/2025 09:47
+- - 5 entrega(s) - 19/07/2025 09:47
+
+67
+Valor Fixo: R$ 6.00
+Entregas: 15
+Total: R$ 90.00
+Últimos 20 registros:
+- + 7 entrega(s) - 19/07/2025 09:47
+- + 4 entrega(s) - 19/07/2025 09:47
+- + 5 entrega(s) - 19/07/2025 09:47
+- - 1 entrega(s) - 19/07/2025 09:48
+
+Resumo Geral:
+Lojas: 3
+Entregas: 147
+Valor Total: R$ 892.00

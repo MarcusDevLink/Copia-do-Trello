@@ -1,0 +1,285 @@
+/* Estilos base (Mobile First - até 640px) */
+:root {
+    --primary: #2c3e50;
+    --secondary: #e74c3c;
+    --success: #27ae60;
+    --danger: #e74c3c;
+    --warning: #f39c12;
+    --info: #3498db;
+    --light: #ecf0f1;
+    --dark: #2c3e50;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f7fa;
+    color: var(--dark);
+    line-height: 1.6;
+    padding: 20px;
+}
+
+.container {
+    max-width: 100%;
+    margin: 0 auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    color: var(--primary);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h2 {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.form-section {
+    margin-bottom: 25px;
+    padding: 15px;
+    background-color: var(--light);
+    border-radius: 6px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+/* Botões */
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+}
+
+.btn-success {
+    background-color: var(--success);
+    color: white;
+}
+
+.btn-danger {
+    background-color: var(--danger);
+    color: white;
+}
+
+.btn-secondary {
+    background-color: var(--dark);
+    color: white;
+}
+
+.btn-primary:hover,
+.btn-success:hover,
+.btn-danger:hover,
+.btn-secondary:hover {
+    opacity: 0.9;
+}
+
+/* Lista de lojas */
+.lojas-container {
+    margin-top: 30px;
+}
+
+.loja-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+.loja-info {
+    margin-bottom: 10px;
+}
+
+.loja-nome {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.loja-valor {
+    color: #555;
+}
+
+.loja-totais {
+    font-size: 16px;
+}
+
+.delete-btn-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.btn-delete {
+    background-color: var(--danger);
+    color: white;
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 4px;
+}
+
+.btn-delete:hover {
+    background-color: #c0392b !important;
+}
+
+.historico-container {
+    margin-top: 15px;
+    padding: 10px 15px;
+    background-color: #f8f9fa;
+    border-left: 4px solid #090229;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.historico-container strong {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.historico-container ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.historico-container li {
+    padding: 6px 10px;
+    margin-bottom: 4px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    transition: background 0.2s ease;
+}
+
+.historico-container li:hover {
+    background-color: #e9f5ff;
+}
+
+/* Resumo */
+.summary {
+    background-color: var(--light);
+    padding: 20px;
+    border-radius: 6px;
+    margin-top: 30px;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.summary-item:last-child {
+    font-weight: bold;
+}
+
+/* --------------------------- RESPONSIVIDADE --------------------------- */
+
+/* Tablet (641px até 1023px) */
+@media (min-width: 641px) and (max-width: 1023px) {
+    .container {
+        padding: 25px;
+    }
+
+    .form-section {
+        padding: 20px;
+    }
+
+    .btn-delete {
+        font-size: 13px;
+    }
+
+    .loja-card {
+        padding: 20px;
+    }
+}
+
+/* Desktop (a partir de 1024px) */
+@media (min-width: 1024px) {
+    .container {
+        max-width: 900px;
+    }
+
+    .buttons-container {
+        display: flex;
+        justify-content: flex-start;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    button {
+        width: auto;
+        margin-bottom: 0;
+    }
+
+    .form-section {
+        padding: 25px;
+    }
+
+    .loja-card {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .loja-info,
+    .loja-totais,
+    .historico-container {
+        flex: 1 1 100%;
+        margin-top: 10px;
+    }
+
+    .loja-nome {
+        font-size: 20px;
+    }
+
+    .historico-container {
+        margin-top: 10px;
+    }
+}

@@ -1,0 +1,32 @@
+Relatório de Entregas
+
+Lojas:
+
+li
+Valor Fixo: R$ 7.00
+Entregas: 12
+Total: R$ 84.00
+Últimos registros:
+ - undefined undefined - undefined entrega(s)
+ - undefined undefined - undefined entrega(s)
+
+lo
+Valor Fixo: R$ 8.00
+Entregas: 28
+Total: R$ 224.00
+Últimos registros:
+ - undefined undefined - undefined entrega(s)
+ - undefined undefined - undefined entrega(s)
+ - undefined undefined - undefined entrega(s)
+
+link
+Valor Fixo: R$ 7.00
+Entregas: 6
+Total: R$ 42.00
+Últimos registros:
+ - undefined undefined - undefined entrega(s)
+
+Resumo Geral:
+Lojas: 3
+Entregas: 46
+Valor Total: R$ 350.00

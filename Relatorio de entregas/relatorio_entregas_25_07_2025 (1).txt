@@ -1,0 +1,58 @@
+Relatório de Entregas
+
+Lojas:
+
+a
+Valor Fixo: R$ 4.00
+Entregas: 625
+Total: R$ 2500.00
+Últimos registros:
+ - undefined undefined - undefined entrega(s)
+ - undefined undefined - undefined entrega(s)
+ - undefined undefined - undefined entrega(s)
+ - undefined undefined - undefined entrega(s)
+ - undefined undefined - undefined entrega(s)
+ - undefined undefined - undefined entrega(s)
+
+b
+Valor Fixo: R$ 5.00
+Entregas: 101
+Total: R$ 505.00
+Últimos registros:
+ - undefined undefined - undefined entrega(s)
+ - undefined undefined - undefined entrega(s)
+ - undefined undefined - undefined entrega(s)
+ - undefined undefined - undefined entrega(s)
+
+h
+Valor Fixo: R$ 7.00
+Entregas: 291
+Total: R$ 2037.00
+Últimos registros:
+ - undefined undefined - undefined entrega(s)
+ - undefined undefined - undefined entrega(s)
+ - undefined undefined - undefined entrega(s)
+
+u
+Valor Fixo: R$ 6.00
+Entregas: 54
+Total: R$ 324.00
+Últimos registros:
+ - undefined undefined - undefined entrega(s)
+ - undefined undefined - undefined entrega(s)
+ - undefined undefined - undefined entrega(s)
+
+i
+Valor Fixo: R$ 7.00
+Entregas: 99
+Total: R$ 693.00
+Últimos registros:
+ - undefined undefined - undefined entrega(s)
+ - undefined undefined - undefined entrega(s)
+ - undefined undefined - undefined entrega(s)
+ - undefined undefined - undefined entrega(s)
+
+Resumo Geral:
+Lojas: 5
+Entregas: 1170
+Valor Total: R$ 6059.00

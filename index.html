@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trello Clone</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            min-height: 100vh;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #026aa7;
+            color: white;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 8px;
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .search-box {
+            position: relative;
+            width: 250px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 8px 12px 8px 35px;
+            border: none;
+            border-radius: 4px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 14px;
+        }
+
+        .search-box input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            background-color: #5f9ea0;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Board Header */
+        .board-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .board-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .board-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-icon {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+        }
+
+        .btn-icon:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Board Container */
+        .board-container {
+            display: flex;
+            gap: 16px;
+            padding: 0 16px;
+            overflow-x: auto;
+            min-height: calc(100vh - 180px);
+            padding-bottom: 20px;
+        }
+
+        .list {
+            background-color: #ebecf0;
+            border-radius: 6px;
+            width: 300px;
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .list-header {
+            padding: 10px;
+            font-weight: 600;
+            font-size: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .list-card-count {
+            background-color: rgba(9, 30, 66, 0.1);
+            border-radius: 16px;
+            padding: 2px 8px;
+            font-size: 12px;
+            color: #5e6c84;
+        }
+
+        .list-cards {
+            padding: 8px;
+            flex-grow: 1;
+            min-height: 100px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .card:hover {
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .card-title {
+            font-weight: 500;
+            font-size: 14px;
+            color: #172b4d;
+            margin-bottom: 6px;
+        }
+
+        .card-description {
+            font-size: 13px;
+            color: #5e6c84;
+            margin-bottom: 8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+        }
+
+        .card-members {
+            display: flex;
+            gap: -8px;
+        }
+
+        .card-member {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: #5f9ea0;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+            border: 2px solid white;
+        }
+
+        .card-due-date {
+            color: #5e6c84;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .priority-badge {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: 4px;
+        }
+
+        .priority-high {
+            background-color: #ff5630;
+        }
+
+        .priority-medium {
+            background-color: #ffab00;
+        }
+
+        .priority-low {
+            background-color: #36b37e;
+        }
+
+        .add-card-btn {
+            padding: 8px 10px;
+            color: #5e6c84;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            border-radius: 4px;
+            margin: 4px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .add-card-btn:hover {
+            background-color: rgba(9, 30, 66, 0.08);
+        }
+
+        .add-list-btn {
+            background-color: #ebecf0;
+            border-radius: 6px;
+            padding: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #5e6c84;
+            font-weight: 500;
+            margin-left: 16px;
+            flex-shrink: 0;
+            width: 300px;
+        }
+
+        .add-list-btn:hover {
+            background-color: #dfe1e6;
+        }
+
+        .add-list-input-container {
+            padding: 10px;
+            background-color: #ebecf0;
+            border-radius: 6px;
+            margin-left: 16px;
+            width: 300px;
+            flex-shrink: 0;
+        }
+
+        .add-list-input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        .add-list-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .add-list-button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .add-list-submit {
+            background-color: #0079bf;
+            color: white;
+        }
+
+        .add-list-cancel {
+            background-color: #ebecf0;
+            color: #172b4d;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal {
+            background-color: white;
+            border-radius: 8px;
+            width: 500px;
+            max-width: 90vw;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 20px 20px 15px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #5e6c84;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #172b4d;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .members-selector {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .member-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #5f9ea0;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .member-btn.selected {
+            border-color: #0079bf;
+            transform: scale(1.1);
+        }
+
+        .modal-footer {
+            padding: 16px 20px;
+            border-top: 1px solid #ddd;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .btn-danger {
+            background-color: #de350b;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #bf2600;
+        }
+
+        /* Edit Mode Styles */
+        .card-edit-mode {
+            position: relative;
+            padding: 10px;
+            background-color: white;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-edit-input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .card-edit-textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        .card-edit-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .btn-save {
+            background-color: #0079bf;
+            color: white;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-save:hover {
+            background-color: #026aa7;
+        }
+
+        .btn-cancel {
+            background-color: #ebecf0;
+            color: #172b4d;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-cancel:hover {
+            background-color: #dfe1e6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .board-container {
+                padding: 0 8px;
+            }
+            
+            .list, .add-list-btn, .add-list-input-container {
+                width: 260px;
+            }
+            
+            .search-box {
+                width: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <i class="fas fa-trello"></i>
+            TrelloClone
+        </div>
+        <nav>
+            <a href="#">Boards</a>
+            <a href="#">Templates</a>
+            <a href="#">Enterprise</a>
+        </nav>
+        <div class="header-right">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search...">
+            </div>
+            <div class="user-avatar">U</div>
+        </div>
+    </header>
+
+    <!-- Board Header -->
+    <div class="board-header">
+        <h1 class="board-title">Projeto de Desenvolvimento</h1>
+        <div class="board-actions">
+            <button class="btn btn-primary">
+                <i class="fas fa-filter"></i>
+                Filter
+            </button>
+            <button class="btn-icon">
+                <i class="fas fa-ellipsis-h"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Board Container -->
+    <div class="board-container" id="board-container">
+        <!-- Lists will be dynamically added here -->
+    </div>
+
+    <!-- Add List Button -->
+    <button class="add-list-btn" id="add-list-btn">
+        <i class="fas fa-plus"></i>
+        Add another list
+    </button>
+
+    <!-- Add List Input Container (hidden by default) -->
+    <div class="add-list-input-container" id="add-list-input-container" style="display: none;">
+        <input type="text" class="add-list-input" id="list-title-input" placeholder="Enter list title...">
+        <div class="add-list-buttons">
+            <button class="add-list-button add-list-submit" id="add-list-submit">Add List</button>
+            <button class="add-list-button add-list-cancel" id="add-list-cancel">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Card Modal -->
+    <div class="modal-overlay" id="card-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modal-title">Add Card</h2>
+                <button class="modal-close" id="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="card-title">Title</label>
+                    <input type="text" class="form-control" id="card-title" placeholder="Enter card title">
+                </div>
+                <div class="form-group">
+                    <label for="card-description">Description</label>
+                    <textarea class="form-control" id="card-description" rows="3" placeholder="Enter card description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Members</label>
+                    <div class="members-selector">
+                        <button class="member-btn" data-member="A">A</button>
+                        <button class="member-btn" data-member="B">B</button>
+                        <button class="member-btn" data-member="C">C</button>
+                        <button class="member-btn" data-member="D">D</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="card-due-date">Due Date</label>
+                    <input type="date" class="form-control" id="card-due-date">
+                </div>
+                <div class="form-group">
+                    <label for="card-priority">Priority</label>
+                    <select class="form-control" id="card-priority">
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" id="delete-card-btn" style="display: none;">
+                    <i class="fas fa-trash"></i>
+                    Delete
+                </button>
+                <button class="btn btn-primary" id="save-card-btn">
+                    <span id="save-btn-text">Add</span> Card
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initial data
+        let boardData = {
+            lists: [
+                {
+                    id: 1,
+                    title: "A Fazer",
+                    cards: [
+                        {
+                            id: 1,
+                            title: "Criar protótipo inicial",
+                            description: "Desenvolver wireframes para a interface",
+                            members: ["A"],
+                            dueDate: "2024-01-15",
+                            priority: "high"
+                        },
+                        {
+                            id: 2,
+                            title: "Definir arquitetura",
+                            description: "Escolher tecnologias e estrutura de pastas",
+                            members: ["B"],
+                            dueDate: "2024-01-18",
+                            priority: "medium"
+                        }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "Em Progresso",
+                    cards: [
+                        {
+                            id: 3,
+                            title: "Implementar autenticação",
+                            description: "Configurar login e registro de usuários",
+                            members: ["A", "C"],
+                            dueDate: "2024-01-20",
+                            priority: "high"
+                        }
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "Revisão",
+                    cards: [
+                        {
+                            id: 4,
+                            title: "Testar funcionalidades",
+                            description: "Executar testes unitários e de integração",
+                            members: ["B"],
+                            dueDate: "2024-01-22",
+                            priority: "medium"
+                        }
+                    ]
+                },
+                {
+                    id: 4,
+                    title: "Concluído",
+                    cards: [
+                        {
+                            id: 5,
+                            title: "Configurar ambiente",
+                            description: "Preparar servidor e banco de dados",
+                            members: ["A"],
+                            dueDate: "2024-01-10",
+                            priority: "low"
+                        }
+                    ]
+                }
+            ]
+        };
+
+        let currentCardId = 5;
+        let currentListId = 4;
+        let editingCard = null;
+        let editingCardElement = null;
+
+        // DOM Elements
+        const boardContainer = document.getElementById('board-container');
+        const addListBtn = document.getElementById('add-list-btn');
+        const addListInputContainer = document.getElementById('add-list-input-container');
+        const listTitleInput = document.getElementById('list-title-input');
+        const addListSubmit = document.getElementById('add-list-submit');
+        const addListCancel = document.getElementById('add-list-cancel');
+        const cardModal = document.getElementById('card-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalClose = document.getElementById('modal-close');
+        const cardTitle = document.getElementById('card-title');
+        const cardDescription = document.getElementById('card-description');
+        const cardDueDate = document.getElementById('card-due-date');
+        const cardPriority = document.getElementById('card-priority');
+        const memberBtns = document.querySelectorAll('.member-btn');
+        const saveCardBtn = document.getElementById('save-card-btn');
+        const saveBtnText = document.getElementById('save-btn-text');
+        const deleteCardBtn = document.getElementById('delete-card-btn');
+
+        // Initialize the board
+        function renderBoard() {
+            boardContainer.innerHTML = '';
+            boardData.lists.forEach(list => {
+                const listElement = createListElement(list);
+                boardContainer.appendChild(listElement);
+            });
+        }
+
+        function createListElement(list) {
+            const listDiv = document.createElement('div');
+            listDiv.className = 'list';
+            listDiv.dataset.listId = list.id;
+
+            // List header
+            const header = document.createElement('div');
+            header.className = 'list-header';
+            header.innerHTML = `
+                <span>${list.title}</span>
+                <span class="list-card-count">${list.cards.length}</span>
+            `;
+            listDiv.appendChild(header);
+
+            // Cards container
+            const cardsContainer = document.createElement('div');
+            cardsContainer.className = 'list-cards';
+            cardsContainer.dataset.listId = list.id;
+
+            list.cards.forEach(card => {
+                const cardElement = createCardElement(card);
+                cardsContainer.appendChild(cardElement);
+            });
+
+            listDiv.appendChild(cardsContainer);
+
+            // Add card button
+            const addCardBtn = document.createElement('button');
+            addCardBtn.className = 'add-card-btn';
+            addCardBtn.innerHTML = '<i class="fas fa-plus"></i> Add card';
+            addCardBtn.onclick = () => openCardModal(null, list.id);
+            listDiv.appendChild(addCardBtn);
+
+            return listDiv;
+        }
+
+        function createCardElement(card) {
+            const cardDiv = document.createElement('div');
+            cardDiv.className = 'card';
+            cardDiv.dataset.cardId = card.id;
+            cardDiv.draggable = true;
+
+            const priorityClass = `priority-${card.priority}`;
+            const dueDate = card.dueDate ? new Date(card.dueDate).toLocaleDateString() : '';
+
+            cardDiv.innerHTML = `
+                <div class="card-title">${card.title}</div>
+                ${card.description ? `<div class="card-description">${card.description}</div>` : ''}
+                <div class="card-footer">
+                    <div class="card-members">
+                        ${card.members.map(member => `<div class="card-member">${member}</div>`).join('')}
+                    </div>
+                    <div class="card-due-date">
+                        ${dueDate ? `<i class="far fa-calendar"></i> ${dueDate}` : ''}
+                        <span class="priority-badge ${priorityClass}"></span>
+                    </div>
+                </div>
+            `;
+
+            // Double click to edit
+            cardDiv.addEventListener('dblclick', (e) => {
+                if (!e.target.classList.contains('card-member') && !e.target.classList.contains('fa-calendar')) {
+                    startCardEdit(cardDiv, card);
+                }
+            });
+
+            cardDiv.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('cardId', card.id);
+                e.dataTransfer.setData('sourceListId', cardDiv.parentElement.dataset.listId);
+            });
+
+            return cardDiv;
+        }
+
+        function startCardEdit(cardElement, card) {
+            // Replace card with edit form
+            const editDiv = document.createElement('div');
+            editDiv.className = 'card-edit-mode';
+            editDiv.dataset.cardId = card.id;
+
+            editDiv.innerHTML = `
+                <input type="text" class="card-edit-input" value="${card.title}" placeholder="Card title">
+                <textarea class="card-edit-textarea" placeholder="Add a description...">${card.description || ''}</textarea>
+                <div class="card-edit-actions">
+                    <button class="btn-cancel" id="cancel-edit">Cancel</button>
+                    <button class="btn-save" id="save-edit">Save</button>
+                </div>
+            `;
+
+            // Replace the card with edit mode
+            cardElement.parentNode.replaceChild(editDiv, cardElement);
+
+            // Focus on title input
+            const titleInput = editDiv.querySelector('.card-edit-input');
+            titleInput.focus();
+
+            // Select all text
+            titleInput.select();
+
+            // Save button event
+            editDiv.querySelector('#save-edit').addEventListener('click', () => {
+                saveCardEdit(editDiv, card.id);
+            });
+
+            // Cancel button event
+            editDiv.querySelector('#cancel-edit').addEventListener('click', () => {
+                cancelCardEdit(editDiv, cardElement);
+            });
+
+            // Enter key to save
+            editDiv.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    saveCardEdit(editDiv, card.id);
+                }
+            });
+
+            editingCardElement = editDiv;
+        }
+
+        function saveCardEdit(editDiv, cardId) {
+            const titleInput = editDiv.querySelector('.card-edit-input');
+            const descriptionInput = editDiv.querySelector('.card-edit-textarea');
+            
+            const title = titleInput.value.trim();
+            if (!title) {
+                alert('Card title cannot be empty');
+                return;
+            }
+
+            // Find the card and update it
+            for (const list of boardData.lists) {
+                const cardIndex = list.cards.findIndex(c => c.id === cardId);
+                if (cardIndex !== -1) {
+                    list.cards[cardIndex].title = title;
+                    list.cards[cardIndex].description = descriptionInput.value.trim();
+                    break;
+                }
+            }
+
+            // Replace edit mode with updated card
+            const updatedCardElement = createCardElement(boardData.lists
+                .flatMap(l => l.cards)
+                .find(c => c.id === cardId));
+            
+            editDiv.parentNode.replaceChild(updatedCardElement, editDiv);
+            editingCardElement = null;
+        }
+
+        function cancelCardEdit(editDiv, originalCardElement) {
+            // Replace edit mode with original card
+            editDiv.parentNode.replaceChild(originalCardElement, editDiv);
+            editingCardElement = null;
+        }
+
+        // Event Listeners
+        addListBtn.addEventListener('click', () => {
+            addListBtn.style.display = 'none';
+            addListInputContainer.style.display = 'block';
+            listTitleInput.focus();
+        });
+
+        addListCancel.addEventListener('click', () => {
+            addListBtn.style.display = 'flex';
+            addListInputContainer.style.display = 'none';
+            listTitleInput.value = '';
+        });
+
+        addListSubmit.addEventListener('click', () => {
+            const title = listTitleInput.value.trim();
+            if (title) {
+                currentListId++;
+                const newList = {
+                    id: currentListId,
+                    title: title,
+                    cards: []
+                };
+                boardData.lists.push(newList);
+                renderBoard();
+                addListBtn.style.display = 'flex';
+                addListInputContainer.style.display = 'none';
+                listTitleInput.value = '';
+            }
+        });
+
+        listTitleInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                addListSubmit.click();
+            }
+        });
+
+        // Modal functions
+        function openCardModal(cardId, defaultListId = null) {
+            editingCard = cardId;
+            const isEditing = cardId !== null;
+
+            // Reset form
+            cardTitle.value = '';
+            cardDescription.value = '';
+            cardDueDate.value = '';
+            cardPriority.value = 'medium';
+            memberBtns.forEach(btn => btn.classList.remove('selected'));
+
+            if (isEditing) {
+                const card = findCard(cardId);
+                if (card) {
+                    cardTitle.value = card.title;
+                    cardDescription.value = card.description || '';
+                    cardDueDate.value = card.dueDate || '';
+                    cardPriority.value = card.priority;
+                    card.members.forEach(member => {
+                        const btn = document.querySelector(`.member-btn[data-member="${member}"]`);
+                        if (btn) btn.classList.add('selected');
+                    });
+                    modalTitle.textContent = 'Edit Card';
+                    saveBtnText.textContent = 'Update';
+                    deleteCardBtn.style.display = 'inline-block';
+                }
+            } else {
+                modalTitle.textContent = 'Add Card';
+                saveBtnText.textContent = 'Add';
+                deleteCardBtn.style.display = 'none';
+            }
+
+            // Store the default list ID for new cards
+            saveCardBtn.dataset.defaultListId = defaultListId;
+
+            cardModal.style.display = 'flex';
+        }
+
+        function findCard(cardId) {
+            for (const list of boardData.lists) {
+                const card = list.cards.find(c => c.id === cardId);
+                if (card) return card;
+            }
+            return null;
+        }
+
+        function findCardIndex(cardId) {
+            for (const list of boardData.lists) {
+                const index = list.cards.findIndex(c => c.id === cardId);
+                if (index !== -1) {
+                    return { listId: list.id, index };
+                }
+            }
+            return null;
+        }
+
+        modalClose.addEventListener('click', () => {
+            cardModal.style.display = 'none';
+        });
+
+        cardModal.addEventListener('click', (e) => {
+            if (e.target === cardModal) {
+                cardModal.style.display = 'none';
+            }
+        });
+
+        // Member selection
+        memberBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.classList.toggle('selected');
+            });
+        });
+
+        // Save card
+        saveCardBtn.addEventListener('click', () => {
+            const title = cardTitle.value.trim();
+            if (!title) {
+                alert('Please enter a card title');
+                return;
+            }
+
+            const selectedMembers = Array.from(memberBtns)
+                .filter(btn => btn.classList.contains('selected'))
+                .map(btn => btn.dataset.member);
+
+            const cardData = {
+                title: cardTitle.value.trim(),
+                description: cardDescription.value.trim(),
+                members: selectedMembers,
+                dueDate: cardDueDate.value,
+                priority: cardPriority.value
+            };
+
+            if (editingCard) {
+                // Update existing card
+                const indices = findCardIndex(editingCard);
+                if (indices) {
+                    boardData.lists.find(l => l.id === indices.listId).cards[indices.index] = {
+                        ...boardData.lists.find(l => l.id === indices.listId).cards[indices.index],
+                        ...cardData
+                    };
+                }
+            } else {
+                // Add new card
+                currentCardId++;
+                const defaultListId = parseInt(saveCardBtn.dataset.defaultListId) || boardData.lists[0].id;
+                const list = boardData.lists.find(l => l.id === defaultListId);
+                if (list) {
+                    list.cards.push({
+                        id: currentCardId,
+                        ...cardData
+                    });
+                }
+            }
+
+            renderBoard();
+            cardModal.style.display = 'none';
+        });
+
+        // Delete card
+        deleteCardBtn.addEventListener('click', () => {
+            if (editingCard) {
+                const indices = findCardIndex(editingCard);
+                if (indices) {
+                    boardData.lists.find(l => l.id === indices.listId).cards.splice(indices.index, 1);
+                    renderBoard();
+                    cardModal.style.display = 'none';
+                }
+            }
+        });
+
+        // Drag and drop functionality
+        document.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            const cardsContainers = document.querySelectorAll('.list-cards');
+            cardsContainers.forEach(container => {
+                const rect = container.getBoundingClientRect();
+                if (e.clientY >= rect.top && e.clientY <= rect.bottom) {
+                    container.style.backgroundColor = '#dfe1e6';
+                    container.style.borderRadius = '4px';
+                } else {
+                    container.style.backgroundColor = '';
+                }
+            });
+        });
+
+        document.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const cardsContainers = document.querySelectorAll('.list-cards');
+            cardsContainers.forEach(container => {
+                container.style.backgroundColor = '';
+            });
+
+            const cardId = parseInt(e.dataTransfer.getData('cardId'));
+            const sourceListId = parseInt(e.dataTransfer.getData('sourceListId'));
+            const targetListId = parseInt(e.target.closest('.list-cards')?.dataset.listId);
+
+            if (cardId && sourceListId && targetListId && sourceListId !== targetListId) {
+                const sourceList = boardData.lists.find(l => l.id === sourceListId);
+                const targetList = boardData.lists.find(l => l.id === targetListId);
+                
+                if (sourceList && targetList) {
+                    const cardIndex = sourceList.cards.findIndex(c => c.id === cardId);
+                    if (cardIndex !== -1) {
+                        const card = sourceList.cards.splice(cardIndex, 1)[0];
+                        targetList.cards.push(card);
+                        renderBoard();
+                    }
+                }
+            }
+        });
+
+        // Initial render
+        renderBoard();
+    </script>
+</body>
+</html>
