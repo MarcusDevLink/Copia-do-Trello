@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -192,6 +192,25 @@
             border-bottom: 1px solid #ddd;
         }
 
+        .list-header-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .list-header-btn {
+            background: none;
+            border: none;
+            color: #5e6c84;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 4px;
+            border-radius: 4px;
+        }
+
+        .list-header-btn:hover {
+            background-color: rgba(9, 30, 66, 0.1);
+        }
+
         .list-card-count {
             background-color: rgba(9, 30, 66, 0.1);
             border-radius: 16px;
@@ -216,11 +235,38 @@
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
             cursor: pointer;
             transition: all 0.2s;
+            position: relative;
         }
 
         .card:hover {
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
             transform: translateY(-1px);
+        }
+
+        .card-actions {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .card:hover .card-actions {
+            opacity: 1;
+        }
+
+        .card-action-btn {
+            background: none;
+            border: none;
+            color: #5e6c84;
+            cursor: pointer;
+            font-size: 12px;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        .card-action-btn:hover {
+            background-color: rgba(9, 30, 66, 0.1);
         }
 
         .card-title {
@@ -669,78 +715,92 @@
     </div>
 
     <script>
-        // Initial data
-        let boardData = {
-            lists: [
-                {
-                    id: 1,
-                    title: "A Fazer",
-                    cards: [
-                        {
-                            id: 1,
-                            title: "Criar protótipo inicial",
-                            description: "Desenvolver wireframes para a interface",
-                            members: ["A"],
-                            dueDate: "2024-01-15",
-                            priority: "high"
-                        },
-                        {
-                            id: 2,
-                            title: "Definir arquitetura",
-                            description: "Escolher tecnologias e estrutura de pastas",
-                            members: ["B"],
-                            dueDate: "2024-01-18",
-                            priority: "medium"
-                        }
-                    ]
-                },
-                {
-                    id: 2,
-                    title: "Em Progresso",
-                    cards: [
-                        {
-                            id: 3,
-                            title: "Implementar autenticação",
-                            description: "Configurar login e registro de usuários",
-                            members: ["A", "C"],
-                            dueDate: "2024-01-20",
-                            priority: "high"
-                        }
-                    ]
-                },
-                {
-                    id: 3,
-                    title: "Revisão",
-                    cards: [
-                        {
-                            id: 4,
-                            title: "Testar funcionalidades",
-                            description: "Executar testes unitários e de integração",
-                            members: ["B"],
-                            dueDate: "2024-01-22",
-                            priority: "medium"
-                        }
-                    ]
-                },
-                {
-                    id: 4,
-                    title: "Concluído",
-                    cards: [
-                        {
-                            id: 5,
-                            title: "Configurar ambiente",
-                            description: "Preparar servidor e banco de dados",
-                            members: ["A"],
-                            dueDate: "2024-01-10",
-                            priority: "low"
-                        }
-                    ]
-                }
-            ]
-        };
+        // Load data from localStorage or use initial data
+        function loadBoardData() {
+            const savedData = localStorage.getItem('trelloBoardData');
+            if (savedData) {
+                return JSON.parse(savedData);
+            }
+            
+            return {
+                lists: [
+                    {
+                        id: 1,
+                        title: "A Fazer",
+                        cards: [
+                            {
+                                id: 1,
+                                title: "Criar protótipo inicial",
+                                description: "Desenvolver wireframes para a interface",
+                                members: ["A"],
+                                dueDate: "2024-01-15",
+                                priority: "high"
+                            },
+                            {
+                                id: 2,
+                                title: "Definir arquitetura",
+                                description: "Escolher tecnologias e estrutura de pastas",
+                                members: ["B"],
+                                dueDate: "2024-01-18",
+                                priority: "medium"
+                            }
+                        ]
+                    },
+                    {
+                        id: 2,
+                        title: "Em Progresso",
+                        cards: [
+                            {
+                                id: 3,
+                                title: "Implementar autenticação",
+                                description: "Configurar login e registro de usuários",
+                                members: ["A", "C"],
+                                dueDate: "2024-01-20",
+                                priority: "high"
+                            }
+                        ]
+                    },
+                    {
+                        id: 3,
+                        title: "Revisão",
+                        cards: [
+                            {
+                                id: 4,
+                                title: "Testar funcionalidades",
+                                description: "Executar testes unitários e de integração",
+                                members: ["B"],
+                                dueDate: "2024-01-22",
+                                priority: "medium"
+                            }
+                        ]
+                    },
+                    {
+                        id: 4,
+                        title: "Concluído",
+                        cards: [
+                            {
+                                id: 5,
+                                title: "Configurar ambiente",
+                                description: "Preparar servidor e banco de dados",
+                                members: ["A"],
+                                dueDate: "2024-01-10",
+                                priority: "low"
+                            }
+                        ]
+                    }
+                ]
+            };
+        }
 
-        let currentCardId = 5;
-        let currentListId = 4;
+        // Save data to localStorage
+        function saveBoardData(data) {
+            localStorage.setItem('trelloBoardData', JSON.stringify(data));
+        }
+
+        // Initialize board data
+        let boardData = loadBoardData();
+        let currentCardId = Math.max(0, ...boardData.lists.flatMap(list => list.cards.map(card => card.id)));
+        let currentListId = Math.max(0, ...boardData.lists.map(list => list.id));
         let editingCard = null;
         let editingCardElement = null;
 
@@ -770,6 +830,7 @@
                 const listElement = createListElement(list);
                 boardContainer.appendChild(listElement);
             });
+            saveBoardData(boardData);
         }
 
         function createListElement(list) {
@@ -777,12 +838,17 @@
             listDiv.className = 'list';
             listDiv.dataset.listId = list.id;
 
-            // List header
+            // List header with actions
             const header = document.createElement('div');
             header.className = 'list-header';
             header.innerHTML = `
                 <span>${list.title}</span>
-                <span class="list-card-count">${list.cards.length}</span>
+                <div class="list-header-actions">
+                    <span class="list-card-count">${list.cards.length}</span>
+                    <button class="list-header-btn delete-list-btn" data-list-id="${list.id}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
             `;
             listDiv.appendChild(header);
 
@@ -818,6 +884,14 @@
             const dueDate = card.dueDate ? new Date(card.dueDate).toLocaleDateString() : '';
 
             cardDiv.innerHTML = `
+                <div class="card-actions">
+                    <button class="card-action-btn edit-card-btn" data-card-id="${card.id}">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="card-action-btn delete-card-btn" data-card-id="${card.id}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
                 <div class="card-title">${card.title}</div>
                 ${card.description ? `<div class="card-description">${card.description}</div>` : ''}
                 <div class="card-footer">
@@ -831,10 +905,17 @@
                 </div>
             `;
 
-            // Double click to edit
-            cardDiv.addEventListener('dblclick', (e) => {
-                if (!e.target.classList.contains('card-member') && !e.target.classList.contains('fa-calendar')) {
-                    startCardEdit(cardDiv, card);
+            // Edit card button event
+            cardDiv.querySelector('.edit-card-btn').addEventListener('click', (e) => {
+                e.stopPropagation();
+                openCardModal(card.id);
+            });
+
+            // Delete card button event
+            cardDiv.querySelector('.delete-card-btn').addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (confirm('Tem certeza que deseja excluir este cartão?')) {
+                    deleteCard(card.id);
                 }
             });
 
@@ -919,12 +1000,34 @@
             
             editDiv.parentNode.replaceChild(updatedCardElement, editDiv);
             editingCardElement = null;
+            saveBoardData(boardData);
         }
 
         function cancelCardEdit(editDiv, originalCardElement) {
             // Replace edit mode with original card
             editDiv.parentNode.replaceChild(originalCardElement, editDiv);
             editingCardElement = null;
+        }
+
+        // Delete card function
+        function deleteCard(cardId) {
+            for (const list of boardData.lists) {
+                const cardIndex = list.cards.findIndex(c => c.id === cardId);
+                if (cardIndex !== -1) {
+                    list.cards.splice(cardIndex, 1);
+                    renderBoard();
+                    return;
+                }
+            }
+        }
+
+        // Delete list function
+        function deleteList(listId) {
+            const listIndex = boardData.lists.findIndex(list => list.id === listId);
+            if (listIndex !== -1) {
+                boardData.lists.splice(listIndex, 1);
+                renderBoard();
+            }
         }
 
         // Event Listeners
@@ -1083,14 +1186,22 @@
             cardModal.style.display = 'none';
         });
 
-        // Delete card
+        // Delete card from modal
         deleteCardBtn.addEventListener('click', () => {
             if (editingCard) {
-                const indices = findCardIndex(editingCard);
-                if (indices) {
-                    boardData.lists.find(l => l.id === indices.listId).cards.splice(indices.index, 1);
-                    renderBoard();
+                if (confirm('Tem certeza que deseja excluir este cartão?')) {
+                    deleteCard(editingCard);
                     cardModal.style.display = 'none';
+                }
+            }
+        });
+
+        // Event delegation for delete list buttons
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.delete-list-btn')) {
+                const listId = parseInt(e.target.closest('.delete-list-btn').dataset.listId);
+                if (confirm('Tem certeza que deseja excluir esta lista e todos os seus cartões?')) {
+                    deleteList(listId);
                 }
             }
         });
@@ -1141,3 +1252,4 @@
     </script>
 </body>
 </html>
+
